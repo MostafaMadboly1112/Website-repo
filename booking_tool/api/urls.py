@@ -1,6 +1,6 @@
 from django.urls import path
-from .views import main
+from .views import TicketView
 
 urlpatterns = [
-    path('', main )
+    path('', TicketView.as_view() )
 ]
