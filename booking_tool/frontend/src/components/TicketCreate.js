@@ -4,8 +4,10 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import { Link } from "react-router-dom";
 import Container from "@material-ui/core/Container";
+import { makeStyles } from "@material-ui/core";
 
 export default function TicketCreate() {
+  const btn = { backgroundColor: "violet", fontSize: 60 };
   return (
     <Container>
       <Typography variant="h2" color="primary" align="center" gutterBottom>
@@ -36,6 +38,7 @@ export default function TicketCreate() {
       </form>
 
       <Button
+        style={btn}
         onClick={() => console.log("You Clicked me")}
         type="submit"
         color="secondary"
