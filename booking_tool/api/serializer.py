@@ -6,3 +6,10 @@ class TicketSerializer(serializers.ModelSerializer):
         model = Ticket
         fields = ('id', 'avs', 'user', 'booking_from', 
                   'booking_to','Tec_data', 'created_at')
+        
+
+
+class CreateTickerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = ('avs','user','booking_from','booking_to','Tec_data')
