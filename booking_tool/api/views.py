@@ -14,11 +14,10 @@ class TicketView(generics.ListAPIView):
     serializer_class = TicketSerializer
 
 
-#'avs','booking_from','booking_to','Tec_data')
 
 class CreateTickerView (APIView):
     serializer_class = CreateTickerSerializer
-    
+    ticket = Ticket
 
     def post(self, request, format=None):
         # if not self.request.session.exists(self.request.session.session_key):
@@ -31,21 +30,21 @@ class CreateTickerView (APIView):
             booking_to = serializer.data.get('booking_to')
             Tec_data = serializer.data.get('Tec_data')
             user = serializer.data.get('user')
-            queryset = Ticket.objects.filter(avs=avs)
+            queryset = self.ticket.objects.filter(avs=avs)
             if queryset.exists():
-                Ticket = queryset[0]
-                Ticket.booking_from = booking_from
-                Ticket.booking_to = booking_to
-                Ticket.Tec_data = Tec_data
-                Ticket.user = user
-                Ticket.save(update_fields=['user','booking_from', 'booking_to', 'Tec_data'])
-                return Response(TicketSerializer(Ticket).data, status=status.HTTP_200_OK)
+                self.ticket = queryset[0]
+                self.ticket.booking_from = booking_from
+                self.ticket.booking_to = booking_to
+                self.ticket.Tec_data = Tec_data
+                self.ticket.user = user
+                self.ticket.save(update_fields=['user','booking_from', 'booking_to', 'Tec_data'])
+                return Response(TicketSerializer(self.ticket).data, status=status.HTTP_200_OK)
             else:
-                Ticket = Ticket(avs=avs, user=user, booking_from=booking_from,
+                self.ticket = self.ticket(avs=avs, user=user, booking_from=booking_from,
                             booking_to=booking_to, Tec_data=Tec_data,
                                 )
-                Ticket.save()
-            return Response(TicketSerializer(Ticket).data, status=status.HTTP_201_CREATED)
+                self.ticket.save()
+            return Response(TicketSerializer(self.ticket).data, status=status.HTTP_201_CREATED)
 
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
